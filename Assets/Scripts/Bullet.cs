@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour
     public Vector3 dir = Vector3.up;
     public GameObject bulletExplosion;
 
+
     private void Awake()
     {
     }
@@ -31,6 +32,10 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy") && !gameObject.CompareTag("EnemyBullet"))
         {
+            GameObject soundManager = GameObject.Find("SoundManager");
+            AudioSource audioSource = soundManager.GetComponent<SoundManager>().effAS;
+            audioSource.clip = soundManager.GetComponent<SoundManager>().explosionAudioclips[1];
+            audioSource.Play();
             Destroy(gameObject);
         }
         if(collision.gameObject.CompareTag("Player") && gameObject.CompareTag("EnemyBullet"))
@@ -38,6 +43,12 @@ public class Bullet : MonoBehaviour
             GameObject newExplosion = Instantiate(bulletExplosion);
             newExplosion.transform.position = transform.position;
             collision.gameObject.GetComponent<PlayerMove>().hp -= 10;
+
+            GameObject soundManager = GameObject.Find("SoundManager");
+            AudioSource audioSource = soundManager.GetComponent<SoundManager>().effAS;
+            audioSource.clip = soundManager.GetComponent<SoundManager>().explosionAudioclips[0];
+            audioSource.Play();
+            
             Destroy(gameObject);
         }
     }

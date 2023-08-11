@@ -10,11 +10,17 @@ public class Enemy : MonoBehaviour
     float randValue;
     GameObject player;
 
-    private Camera mainCamera;
+    Camera mainCamera;
 
     public GameObject Item;
     public GameObject explosionEffect;
 
+    public GameManager gameManager;
+
+    private void Awake()
+    {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -34,6 +40,7 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if(randValue < 1)
         {
             if(player != null)
@@ -45,8 +52,11 @@ public class Enemy : MonoBehaviour
         if (hp <= 0)
         {
             int randValue = Random.Range(0, 100);
-            Debug.Log(randValue);
-            if(randValue < 5)
+
+            gameManager.destroyScore += 100;
+            gameManager.destroyScoreUI.text = gameManager.destroyScore.ToString();
+
+            if (randValue < 8)
             {
                 GameObject newItem = Instantiate(Item);
                 newItem.transform.position = transform.position;
@@ -79,6 +89,8 @@ public class Enemy : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Bullet"))
         {
+            gameManager.attackScore += 30;
+            gameManager.attackScoreUI.text = gameManager.attackScore.ToString();
             hp -= 10;
         }
     }

@@ -9,10 +9,15 @@ public class PlayerMove : MonoBehaviour
 
     // 카메라, 스크린의 경계, 플레이어의 너비와 높이
     private Camera mainCamera;
-    private Vector2 screenBounds;
+    private Vector2 screenBounds;   
     private float playerWidth;
     private float playerHeight;
 
+    GameManager gameManager;
+    private void Awake()
+    {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +41,9 @@ public class PlayerMove : MonoBehaviour
 
         if(hp <= 0)
         {
+            gameManager.bestScore = gameManager.attackScore + gameManager.destroyScore;
+
+            PlayerPrefs.SetInt("Best", gameManager.bestScore);
             Destroy(gameObject);
         }
     }
