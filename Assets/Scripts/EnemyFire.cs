@@ -27,7 +27,7 @@ public class EnemyFire : MonoBehaviour
                 newBullet.tag = "EnemyBullet";
 
                 Vector3 newDir = (player.transform.position - transform.position).normalized;
-                newBullet.GetComponent<Bullet>().dir = newDir;
+                newBullet.GetComponent<EnemyBullet>().dir = newDir;
 
                 currentTime = 0;
             }

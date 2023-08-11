@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 5111976078608269321}
   - component: {fileID: 5887956180397337285}
   - component: {fileID: 6289878030296195718}
-  - component: {fileID: 4965166731743624507}
   - component: {fileID: 1316319137798838446}
+  - component: {fileID: 3303979683412537060}
   m_Layer: 8
   m_Name: EnemyBullet
   m_TagString: EnemyBullet
@@ -34,7 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5111976078608269321
 MeshFilter:
@@ -107,21 +107,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4965166731743624507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6405848783923135179}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 385a7c6f1302bd54b8649217e5d1eb4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 10
-  dir: {x: 0, y: 1, z: 0}
-  bulletExplosion: {fileID: 4021103657954561961, guid: 5c755f9bc5253ea418e919994537dcc7, type: 3}
 --- !u!54 &1316319137798838446
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -149,3 +134,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &3303979683412537060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6405848783923135179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eaedc9df65be66d4997e2e278d49e339, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  dir: {x: 0, y: 1, z: 0}
+  bulletExplosion: {fileID: 4021103657954561961, guid: 5c755f9bc5253ea418e919994537dcc7, type: 3}

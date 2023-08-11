@@ -7,6 +7,7 @@ public class EnemyMove : MonoBehaviour
     public float speed = 1.0f;
     public float scaleFactor = 1.0f;
     public float dir = 1.0f;
+    public float axisMove;
 
     private Vector3 initialPosition;
 
@@ -18,11 +19,11 @@ public class EnemyMove : MonoBehaviour
     private void Update()
     {
         float x = transform.position.x;
-        float y = Mathf.Sin(x/2-0.8f);
+        float y = Mathf.Sin(x/2-axisMove);
         //float y2 = transform.position.y;
         //float x2 = Mathf.Asin(y);
 
-        transform.position = new Vector3(x, y, 0);
+        transform.position = new Vector3(x, initialPosition.y + y , 0);
         transform.position += Vector3.right * Time.deltaTime * speed * dir;
         //이니셜 포지션과 더해보기
 

@@ -73,8 +73,8 @@ public class Enemy : MonoBehaviour
         Vector3 viewPos = mainCamera.WorldToViewportPoint(transform.position);
 
         // 뷰포트 밖으로 나간 경우 오브젝트 파괴
-        if (viewPos.x < -0.2f || viewPos.x > 1.2f ||
-            viewPos.y < -0.2f)
+        if (viewPos.x < -1f || viewPos.x > 2f ||
+            viewPos.y < -1f)
         {
             Destroy(gameObject);
         }

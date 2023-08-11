@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletSpawner : MonoBehaviour
+public class StarSpawner : MonoBehaviour
 {
     public GameObject bulletPrefab;
     public int numberOfBullets = 10;
