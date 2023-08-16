@@ -9,9 +9,12 @@ public class ItemMove : MonoBehaviour
 
     Camera mainCamera;
     float dir;
+    GameObject player;
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.FindWithTag("Player");
+
         mainCamera = Camera.main;
         transform.rotation = Quaternion.Euler(0, 0, 120);
         if(Random.Range(0,2) == 1)
@@ -27,6 +30,11 @@ public class ItemMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(player.activeSelf == false)
+        {
+            gameObject.SetActive(false);
+        }
+
         transform.Translate(transform.up * moveSpeed * Time.deltaTime); 
         Vector3 viewPos = mainCamera.WorldToViewportPoint(transform.position);
 
@@ -37,7 +45,7 @@ public class ItemMove : MonoBehaviour
         }
         if(viewPos.y < 0  || viewPos.y > 1)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 
@@ -52,14 +60,14 @@ public class ItemMove : MonoBehaviour
     }
     private void OnDestroy()
     {
-        if(itemEffect != null)
-        {
-            GameObject soundManager = GameObject.Find("SoundManager");
+        //if(itemEffect != null)
+        //{
+        //    GameObject soundManager = GameObject.Find("SoundManager");
             
-            AudioSource audioSource = soundManager.GetComponent<SoundManager>().effAS;
-            audioSource.clip = soundManager.GetComponent<SoundManager>().itemAudioClips[0];
-            audioSource.Play();
-        }
+        //    AudioSource audioSource = soundManager.GetComponent<SoundManager>().effAS;
+        //    audioSource.clip = soundManager.GetComponent<SoundManager>().itemAudioClips[0];
+        //    audioSource.Play();
+        //}
     }
 
 

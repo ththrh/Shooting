@@ -8,34 +8,43 @@ public class PlayerFire : MonoBehaviour
     public GameObject bullet;
     public GameObject gunpos;
     public int maxSkillLevel = 3;
-    int skillLevel = 0;
+    public int skillLevel = 0;
+
+    public int poolSize = 500;
+    GameObject[] bulletObjectPool;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        bulletObjectPool = new GameObject[poolSize];
+        for (int i = 0; i < poolSize; i++)
+        {
+            bulletObjectPool[i] = Instantiate(bullet);
+            bulletObjectPool[i].SetActive(false);
+
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            
+
             ExcuteSkill(skillLevel);
         }
     }
 
     private void ExcuteSkill(int _skillLevel)
     {
-        switch(_skillLevel)
+        switch (_skillLevel)
         {
             case 0:
                 ExecuteSkill0();
                 break;
             case 1:
                 ExecuteSkill1();
-                break; 
+                break;
             case 2:
                 ExecuteSkill2();
                 break;
@@ -48,16 +57,42 @@ public class PlayerFire : MonoBehaviour
 
         void ExecuteSkill0()
         {
-            GameObject newBullet = Instantiate(bullet);
-            newBullet.transform.position = gunpos.transform.position;
+            for (int i = 0; i < poolSize; i++)
+            {
+                GameObject newBullet = bulletObjectPool[i];
+                if (newBullet.activeSelf == false)
+                {
+                    newBullet.SetActive(true);
+                    newBullet.transform.position = gunpos.transform.position;
+                    break;
+                }
+            }
         }
         void ExecuteSkill1()
         {
-            GameObject newBullet = Instantiate(bullet);
-            GameObject newBullet2 = Instantiate(bullet);
+            int cnt = 0; for (int i = 0; i < poolSize; i++)
+            {
+                GameObject newBullet = bulletObjectPool[i];
+                if (newBullet.activeSelf == false)
+                {
+                    newBullet.SetActive(true);
+                    if (cnt == 0)
+                    {
+                        newBullet.transform.position = gunpos.transform.position + new Vector3(-0.3f, 0, 0);
+                        cnt++;
+                    }
+                    else if (cnt == 1)
+                    {
+                        newBullet.transform.position = gunpos.transform.position + new Vector3(0.3f, 0, 0);
+                        cnt++;
+                    }
+                    if (cnt == 2)
+                    {
+                        break;
+                    }
+                }
+            }
 
-            newBullet.transform.position = gunpos.transform.position + new Vector3(-0.3f, 0 ,0);
-            newBullet2.transform.position = gunpos.transform.position + new Vector3(0.3f, 0, 0);
         }
 
         void ExecuteSkill2()
@@ -80,11 +115,11 @@ public class PlayerFire : MonoBehaviour
         IEnumerator ExecuteSkill3()
         {
             GameObject[] newBullets = new GameObject[24];
-            for(int i = 0; i< 24; i++)
+            for (int i = 0; i < 24; i++)
             {
                 newBullets[i] = Instantiate(bullet);
                 newBullets[i].transform.position = gunpos.transform.position + new Vector3(0, -1, 0);
-                newBullets[i].transform.rotation = Quaternion.Euler(0,0,15 * (i+1));
+                newBullets[i].transform.rotation = Quaternion.Euler(0, 0, 15 * (i + 1));
                 newBullets[i].GetComponent<Bullet>().dir = transform.up;
                 yield return new WaitForSeconds(0.035f);
 
@@ -97,16 +132,16 @@ public class PlayerFire : MonoBehaviour
         if (other.gameObject.CompareTag("Item"))
         {
             skillLevel++;
-            if(skillLevel > maxSkillLevel)
+            if (skillLevel > maxSkillLevel)
             {
                 skillLevel = maxSkillLevel;
             }
-            Destroy(other.gameObject);
+            other.gameObject.SetActive(false);
         }
     }
 
     private void OnValidate()
     {
-        
+
     }
 }

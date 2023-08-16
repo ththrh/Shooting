@@ -15,11 +15,10 @@ public class Enemy : MonoBehaviour
     public GameObject Item;
     public GameObject explosionEffect;
 
-    public GameManager gameManager;
 
     private void Awake()
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
     }
     // Start is called before the first frame update
     void Start()
@@ -40,7 +39,13 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if(player != null)
+        {
+            if (player.activeSelf == false)
+            {
+                gameObject.SetActive(false);
+            }
+        }
         if(randValue < 1)
         {
             if(player != null)
@@ -53,8 +58,7 @@ public class Enemy : MonoBehaviour
         {
             int randValue = Random.Range(0, 100);
 
-            gameManager.destroyScore += 100;
-            gameManager.destroyScoreUI.text = gameManager.destroyScore.ToString();
+            GameManager.Instance.DestroyScore += 100;
 
             if (randValue < 8)
             {
@@ -64,7 +68,7 @@ public class Enemy : MonoBehaviour
             GameObject newExplosion = Instantiate(explosionEffect);
             newExplosion.transform.position = transform.position;
             Destroy(newExplosion, 0.7f);
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 
@@ -76,7 +80,7 @@ public class Enemy : MonoBehaviour
         if (viewPos.x < -1f || viewPos.x > 2f ||
             viewPos.y < -1f)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 
@@ -89,8 +93,7 @@ public class Enemy : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Bullet"))
         {
-            gameManager.attackScore += 30;
-            gameManager.attackScoreUI.text = gameManager.attackScore.ToString();
+            GameManager.Instance.AttackScore += 30;
             hp -= 10;
         }
     }

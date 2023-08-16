@@ -12,10 +12,19 @@ public class SkillManager : MonoBehaviour
     [Range(0, 10)]
     public float maxCreateTime;
     float currentTime;
+
+    public int poolSize = 10;
+    GameObject[] itemObjectPool;
     // Start is called before the first frame update
     void Start()
     {
-        
+        itemObjectPool = new GameObject[poolSize];
+        for(int i = 0; i < itemObjectPool.Length; i++)
+        {
+            itemObjectPool[i] = Instantiate(skillItem);
+            itemObjectPool[i].transform.position = transform.position;
+            itemObjectPool[i].SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -27,9 +36,17 @@ public class SkillManager : MonoBehaviour
         if(currentTime > createTime)
         {
             randValueX = UnityEngine.Random.Range(-2, 3);
-            randValueY = UnityEngine.Random.Range(0, 4);
-            GameObject newSkillItem = Instantiate(skillItem);
-            newSkillItem.transform.position = new Vector3(randValueX, randValueY, 0);
+            randValueY = UnityEngine.Random.Range(0, 4); 
+            for (int i = 0; i < poolSize; i++)
+            {
+                GameObject newItem = itemObjectPool[i];
+                if (newItem.activeSelf == false)
+                {
+                    newItem.SetActive(true);
+                    newItem.transform.position = new Vector3(randValueX, randValueY, 0);
+                    break;
+                }
+            }
 
             createTime = UnityEngine.Random.Range(minCreateTime, maxCreateTime);
             currentTime = 0;

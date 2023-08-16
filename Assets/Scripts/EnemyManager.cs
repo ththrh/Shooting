@@ -14,6 +14,8 @@ public class EnemyManager : MonoBehaviour
     public float maxTime;
     public GameObject enemy;
 
+    public int poolSize = 10;
+    private GameObject[] enemyObjectPool;
 
     private float currentTime = 0;
 
@@ -21,6 +23,14 @@ public class EnemyManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        enemyObjectPool = new GameObject[poolSize];
+        for (int i = 0; i < enemyObjectPool.Length; i++)
+        {
+            enemyObjectPool[i] = Instantiate(enemy);
+            enemyObjectPool[i].transform.position = transform.position;
+            enemyObjectPool[i].SetActive(false);
+        }
+
         createTime = Random.Range(minTime, maxTime);
     }
 
@@ -31,10 +41,19 @@ public class EnemyManager : MonoBehaviour
 
         if(currentTime >= createTime)
         {
-            GameObject enemyObject = Instantiate(enemy);
-            enemyObject.transform.position = transform.position;
+            for (int i = 0; i < enemyObjectPool.Length; i++)
+            {
+                GameObject enemyObject = enemyObjectPool[i];
+                if (enemyObject.activeSelf == false)
+                {
+                    enemyObject.gameObject.GetComponent<Enemy>().hp = 30;
+                    enemyObject.transform.position = transform.position;
+                    enemyObject.SetActive(true);
+                    currentTime = 0;
+                    break;
+                }
+            }
             
-            currentTime = 0;
         }
     }
 }

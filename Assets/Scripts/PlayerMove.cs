@@ -12,11 +12,11 @@ public class PlayerMove : MonoBehaviour
     private Vector2 screenBounds;   
     private float playerWidth;
     private float playerHeight;
+    private Vector3 startPos;
 
-    GameManager gameManager;
     private void Awake()
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        startPos = transform.position;
     }
     // Start is called before the first frame update
     void Start()
@@ -41,11 +41,9 @@ public class PlayerMove : MonoBehaviour
 
         if(hp <= 0)
         {
-            gameManager.bestScore = gameManager.attackScore + gameManager.destroyScore;
-            gameManager.attackScore = 0;
-            gameManager.destroyScore = 0;
-            PlayerPrefs.SetInt("Best", gameManager.bestScore);
-            Destroy(gameObject);
+            GameManager.Instance.SetBestScore();
+            PlayerPrefs.SetInt("Best", GameManager.Instance.bestScore);
+            gameObject.SetActive(false);
         }
     }
 
@@ -55,5 +53,17 @@ public class PlayerMove : MonoBehaviour
         viewPos.x = Mathf.Clamp(viewPos.x, screenBounds.x * -1 + playerWidth, screenBounds.x - playerWidth);
         viewPos.y = Mathf.Clamp(viewPos.y, screenBounds.y * -1 + playerHeight, screenBounds.y - playerHeight);
         transform.position = viewPos;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.GameOver();
+    }
+
+    public void PlayerInitailize()
+    {
+        transform.position = startPos;
+        hp = 100;
+        gameObject.GetComponent<PlayerFire>().skillLevel = 0;
     }
 }

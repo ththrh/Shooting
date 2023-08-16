@@ -3,12 +3,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEditor.Experimental.Rendering;
 
 public class GameManager : MonoBehaviour
 {
-    public int attackScore;
+    private int attackScore;
+    public GameObject endingScreen;
+    public GameObject player;
+    public int AttackScore
+    {
+        get
+        {
+            return attackScore;
+        }
+        set
+        {
+            attackScore = value;
+            attackScoreUI.text = attackScore.ToString();
+        }
+    }
+    private int destroyScore;
+    public int DestroyScore
+    {
+        get
+        {
+            return destroyScore;
+        }
+        set
+        {
+            destroyScore = value;
+            destroyScoreUI.text = destroyScore.ToString();
+        }
+    }
     public int bestScore;
-    public int destroyScore;
 
     public TMP_Text attackScoreUI;
     public TMP_Text destroyScoreUI;
@@ -41,16 +68,46 @@ public class GameManager : MonoBehaviour
         attackScoreUI.text = "0";
         destroyScoreUI.text = "0";
         bestScoreUI.text = PlayerPrefs.GetInt("Best").ToString();
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+
+        player = GameObject.FindWithTag("Player");
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetBestScore()
     {
+        bestScore = attackScore + destroyScore;
+        attackScore = 0;
+        destroyScore = 0;
+        PlayerPrefs.SetInt("Best", bestScore);
+    }
+    public void SetDestroyScore()
+    {
+        destroyScore += 100;
+        destroyScoreUI.text = destroyScore.ToString();
+    }
+    public void SetAttackScore()
+    {
+        attackScore += 30;
+        attackScoreUI.text = attackScore.ToString();
+    }
 
+    public void GameOver()
+    {
+        endingScreen.gameObject.SetActive(true);
+    }
+    public void Restart()
+    {
+        endingScreen.gameObject.SetActive(false);
+        player.SetActive(true);
+        attackScore = 0;
+        destroyScore = 0;
+        player.GetComponent<PlayerMove>().PlayerInitailize();
+    }
+    public void Exit()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif  
     }
 }
