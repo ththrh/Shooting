@@ -30,9 +30,12 @@ public class ItemMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(player.activeSelf == false)
+        if(player != null)
         {
-            gameObject.SetActive(false);
+            if (player.activeSelf == false)
+            {
+                gameObject.SetActive(false);
+            }
         }
 
         transform.Translate(transform.up * moveSpeed * Time.deltaTime); 

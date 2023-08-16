@@ -13,6 +13,8 @@ public class PlayerFire : MonoBehaviour
     public int poolSize = 500;
     GameObject[] bulletObjectPool;
 
+    public VariableJoystick joystick;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,16 +30,16 @@ public class PlayerFire : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+#if UNiTY_EDITOR || UNITY_STANDALONE
         if (Input.GetKeyDown(KeyCode.Space))
         {
-
-            ExcuteSkill(skillLevel);
+            ExcuteSkill();
         }
+#endif
     }
-
-    private void ExcuteSkill(int _skillLevel)
+    public void ExcuteSkill()
     {
-        switch (_skillLevel)
+        switch (skillLevel)
         {
             case 0:
                 ExecuteSkill0();

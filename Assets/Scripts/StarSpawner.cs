@@ -10,12 +10,23 @@ public class StarSpawner : MonoBehaviour
     public float radius = 2f;
     public int divCount = 8;
     public Vector3[] spawnPositions = new Vector3[5];
+    public float createTime = 2f;
+    float currentTime = 0;
+
 
     void Start()
     {
         SpawnBulletStar();
     }
-
+    private void Update()
+    {
+        currentTime += Time.deltaTime;
+        if( currentTime > createTime )
+        {
+            SpawnBulletStar();
+            currentTime = 0;
+        }
+    }
     void SpawnBulletStar()
     {
         float angleIncrement = 360f / numberOfBullets;

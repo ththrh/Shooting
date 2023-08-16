@@ -14,6 +14,8 @@ public class PlayerMove : MonoBehaviour
     private float playerHeight;
     private Vector3 startPos;
 
+    public VariableJoystick joystick;
+
     private void Awake()
     {
         startPos = transform.position;
@@ -32,10 +34,14 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+#if UNITY_Android
+        float h = joystick.Horizontal;
+        float v = joystick.Vertical;
+#elif UNITY_EDITOR || UNITY_STANDALONE
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
-        
-        
+#endif
+
         Vector3 dir = Vector3.right * h + Vector3.up * v;
         transform.Translate(dir.normalized * moveSpeed * Time.deltaTime);
 

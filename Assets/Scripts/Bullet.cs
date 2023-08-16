@@ -66,7 +66,7 @@ public class Bullet : MonoBehaviour
 
     private void OnDisable()
     {
-        Debug.Log(1);
+
         transform.position = new Vector3(124124, 345235, 12923);
     }
 }
