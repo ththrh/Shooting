@@ -42,7 +42,8 @@ public class PlayerMove : MonoBehaviour
         if(hp <= 0)
         {
             gameManager.bestScore = gameManager.attackScore + gameManager.destroyScore;
-
+            gameManager.attackScore = 0;
+            gameManager.destroyScore = 0;
             PlayerPrefs.SetInt("Best", gameManager.bestScore);
             Destroy(gameObject);
         }
