@@ -13,9 +13,11 @@ public class StarSpawner : MonoBehaviour
     public float createTime = 2f;
     float currentTime = 0;
 
+    GameObject player;
 
     void Start()
     {
+        player = GameObject.FindWithTag("Player");
         SpawnBulletStar();
     }
     private void Update()
@@ -36,7 +38,6 @@ public class StarSpawner : MonoBehaviour
             float angle = i * angleIncrement;
             Vector3 spawnPosition = transform.position + Quaternion.Euler(0f, 180f, angle) * Vector3.up * radius;
             spawnPositions[i] = spawnPosition;
-            Instantiate(bulletPrefab, spawnPosition, Quaternion.identity);
         }
         for(int i=0; i<spawnPositions.Length; i++)
         {
